@@ -1,12 +1,37 @@
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
+import { useState } from 'react';
+
 const Second_first = () => {
+  const [kotha, setkotha] = useState('');
+  const testing = async () => {
+    try {
+      const docRef = await addDoc(collection(db, 'posts'), {
+        name: 'ABIR SAHA',
+        description: 'this is a test on click',
+        message: kotha,
+        photoUrl: '',
+        timestamp: serverTimestamp(),
+      });
+      setkotha('');
+      console.log('Document written with ID: ', docRef.id);
+    } catch (e) {
+      console.error('Error adding document: ', e);
+    }
+  };
   return (
     <div className=" w-full my-3 border-2  rounded-xl h-[13vh] shadow-xl overflow-hidden flex flex-col justify-center items-center">
       <div className="w-full h-[60%]  flex justify-between items-center px-3">
-        <div className="w-[60px] h-[60px] rounded-full bg-gray-200"></div>
+        <div
+          className="w-[60px] h-[60px] rounded-full bg-gray-200"
+          onClick={() => testing()}
+        ></div>
         <input
           type="text"
           placeholder="write whatever you want...!"
           className="w-[87%] rounded-full p-3  h-[90%] border-2 border-gray-400 text-black"
+          onChange={(e) => setkotha(e.target.value)}
+          value={kotha}
         ></input>
       </div>
       <div className="w-full h-[40%]  border-t-2"></div>

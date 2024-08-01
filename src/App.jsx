@@ -4,8 +4,54 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Sidebar_res from './components/Sidebar_res';
 import Second from './components/Second';
+import { db } from './firebase';
+import { useEffect, useState } from 'react';
+// import { firebase } from 'firebase';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
 function App() {
+  const [Posts, setPosts] = useState([]);
+  const [postIds, setPostIds] = useState(new Set());
+  useEffect(() => {
+    const addData = () => {
+      console.log('useEffect');
+      try {
+        const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
+        const unsubscribe = onSnapshot(
+          q,
+          (all_docs) => {
+            console.log('printing');
+            const newPosts = [];
+            const newPostIds = new Set(postIds);
+
+            all_docs.forEach((doc) => {
+              if (!postIds.has(doc.id)) {
+                console.log(doc.id, doc.data());
+                newPosts.push(doc.data());
+                newPostIds.add(doc.id);
+              }
+            });
+
+            if (newPosts.length > 0) {
+              setPosts((prevPosts) => [...newPosts, ...prevPosts]);
+              setPostIds(newPostIds);
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+
+        return unsubscribe; // Clean up the listener on unmount
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const unsubscribe = addData();
+    return () => unsubscribe && unsubscribe(); // Clean up the listener on unmount
+  }, [postIds]); // Dependency array includes postIds to ensure it updates correctly
+
   return (
     <main className="flex flex-col justify-center items-center">
       {/* navigation  */}
@@ -17,7 +63,8 @@ function App() {
         <Sidebar_res />
         <Sidebar />
 
-        <Second />
+        {Posts.length > 0 && <Second Posts={Posts} />}
+        {Posts.length > 0 && console.log('posts', Posts)}
 
         {/* middle part will be for feed (feed can be projects (live link,live video/preview )),can be a post ,can be a poll  */}
 

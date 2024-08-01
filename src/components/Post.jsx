@@ -3,7 +3,8 @@ import { BsChatText } from 'react-icons/bs';
 import { BiRepost } from 'react-icons/bi';
 import { IoPaperPlane } from 'react-icons/io5';
 
-const Post = () => {
+const Post = ({ post }) => {
+  const { description, message, name, photoUrl } = post;
   const icons = [
     <SlLike key={0} className="text-gray-600 h-[50%] w-[50%]" />,
     <BsChatText key={1} className="text-gray-600 h-[50%] w-[50%]" />,
@@ -16,13 +17,14 @@ const Post = () => {
         <div className="ml-4 h-[50px] w-[50px] rounded-full bg-gray-300"></div>
         <div className="h-full w-[40%] flex flex-col justify-center items-start  rounded">
           <div className="h-[50%] flex justify-start items-center  text-black text-sm font-bold ">
-            ABIR SAHA
+            {name}
           </div>
           <div className="h-[30%] flex justify-start items-center text-gray-600 text-sm tracking-tighter leading-none">
-            Author of this app
+            {description}
           </div>
         </div>
       </div>
+      {message}
       <div className="w-[90%] h-[7vh] border-t-2  absolute mb-2 bottom-0 flex justify-between gap-3 items-center px-2 py-1">
         {icons.map((icon, index) => (
           <div

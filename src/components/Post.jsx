@@ -14,7 +14,14 @@ const Post = ({ post }) => {
   return (
     <div className=" w-full my-3 relative rounded-xl h-[40vh] border-2 shadow-xl flex flex-col justify-start items-center p-2">
       <div className="w-full h-[5vh] flex gap-1 justify-start items-center  mt-2 rounded ">
-        <div className="ml-4 h-[50px] w-[50px] rounded-full bg-gray-300"></div>
+        <div className="ml-4 h-[50px] w-[50px] rounded-full bg-gray-300 overflow-hidden">
+          {photoUrl && (
+            <img
+              className="w-full h-full object-cover object-center"
+              src={photoUrl}
+            ></img>
+          )}
+        </div>
         <div className="h-full w-[40%] flex flex-col justify-center items-start  rounded">
           <div className="h-[50%] flex justify-start items-center  text-black text-sm font-bold ">
             {name}

@@ -7,8 +7,23 @@ import { BsChatDotsFill } from 'react-icons/bs';
 import { IoNotificationsSharp } from 'react-icons/io5';
 import { RxAvatar } from 'react-icons/rx';
 import { BsFillGrid3X3GapFill } from 'react-icons/bs';
+import { getAuth, signOut } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { logout } from '../authSlice';
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const auth = getAuth();
+  const Logout = () => {
+    dispatch(logout());
+    signOut(auth)
+      .then(() => {
+        console.log('logged out');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const icons = [
     <MdSearch key={0} className="w-[80%] h-[80%] text-gray-600" />,
     <IoHome key={1} className="w-[80%] h-[70%] text-gray-600" />,
@@ -48,7 +63,10 @@ const Header = () => {
         </div>
         <div className="w-[30%] md:w-[20%] h-full  p-1 flex justify-start items-center ">
           <div className="w-[25%] h-[80%]   flex justify-center items-center">
-            <BsFillGrid3X3GapFill className="w-[80%] h-[70%] text-gray-600" />
+            <BsFillGrid3X3GapFill
+              className="w-[80%] h-[70%] text-gray-600"
+              onClick={() => Logout()}
+            />
           </div>
         </div>
       </div>
@@ -74,7 +92,10 @@ const Header = () => {
         </div>
         <div className="w-[30%] md:w-[20%] h-full  p-1 flex justify-start items-center ">
           <div className="w-[25%] h-[80%]   flex justify-center items-center">
-            <BsFillGrid3X3GapFill className="w-[80%] h-[70%] text-gray-600" />
+            <BsFillGrid3X3GapFill
+              className="w-[80%] h-[70%] text-gray-600"
+              onClick={() => Logout()}
+            />
           </div>
         </div>
       </div>

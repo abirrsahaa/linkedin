@@ -1,8 +1,18 @@
+import { useSelector } from 'react-redux';
+
 const Sidebar_res = () => {
+  const user = useSelector((store) => store.auth.user);
   return (
     <div className=" w-[90%] relative my-3 flex flex-col justify-center items-center  md:hidden rounded-xl h-[22vh] border-2 shadow-xl overflow-hidden">
       <div className="w-full h-[35%] bg-blue-400 z-10"></div>
-      <div className="w-[70px] h-[70px] absolute z-20 mx-auto top-5 bg-gray-300 rounded-full"></div>
+      <div className="w-[70px] h-[70px] absolute z-20 mx-auto top-5 bg-gray-300 rounded-full overflow-hidden">
+        {user && (
+          <img
+            className="w-full h-full object-cover object-center"
+            src={user.photoURL}
+          ></img>
+        )}
+      </div>
       <div className="w-full h-[65%] z-10 flex justify-center items-end ">
         <div className="w-[90%] h-[60%]  flex flex-col gap-2 justify-center items-center ">
           <div className="text-lg text-black font-semibold tracking-tighter leading-none ">
